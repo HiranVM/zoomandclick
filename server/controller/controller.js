@@ -443,7 +443,7 @@ console.log(items);
 };
 
 
-
+//find user
   exports.find_user = async (req, res) => {
     if (!req.body.email || req.body.email.trim() === "" || !req.body.password || req.body.password.trim() === "") {
       const product = await productSchema.find().limit(4)
