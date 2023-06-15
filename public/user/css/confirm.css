@@ -1,0 +1,44 @@
+.profile{
+    list-style: none;
+}
+.profile li{
+    padding: 10px;
+    font-size: larger;
+}
+.full_cardp{
+    height: 500px;
+    margin-top: 30px;
+}
+.rounded_photo{
+    width: 150px;
+}
+.photo_name{
+    width: max-content;
+}
+.pro_detail{
+    padding-top: 40px;
+    margin-left: 15px;
+}
+.pdetails{
+    height: 500px;
+    margin-top: 30px;
+}
+.informa{
+    margin-bottom: 30px;
+}
+.informa2{
+    padding: 10px;
+}
+.myvala{
+    text-decoration: none;
+    color: black;
+    width: max-content;
+}
+.myord{
+    text-decoration: none;
+    color: black;
+    width: max-content;
+}
+.product-details{
+    word-break: break-all;
+  }

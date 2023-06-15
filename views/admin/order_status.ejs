@@ -1,0 +1,169 @@
+<%- include('header') %>
+
+            <!-- product Start -->
+            <div class="container-fluid pt-4 px-4">
+                
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div>
+                            <button type="button" id="download-button">Download PDF</button>
+                            <button type="button" id="export-button">Download Excel</button>
+                        </div>
+                        <div class="bg-secondary rounded h-100 p-4" id="sales">
+                            <h6 class="mb-4">Order Details</h6>
+                            
+                            <div>
+                                <form action="/filterorder" method="post">
+                                <input class="filterdate" name="preDate" type="date">
+                                <input class="filterdate" name="postDate" type="date">
+                                <button type="submit" class="btn btn-danger">Filter</button>
+                                </form>
+                            </div>
+                            <div class="table-responsive" id="salesexcel">
+                                <table id="orderTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No:</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">date</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">quantity</th>
+                                            <th scope="col">total</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">status</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order_data.forEach(function(orders,index) { %>
+                                        <tr class="blackcolor">
+                                
+                                            <td><%= index+1 %></td>
+                                            <td><%= orders.user.name %></td>
+
+                                            <td><%= orders.createdAt.toLocaleDateString() %></td>
+
+                                            <td >
+                                                <div class="order_pro">
+                                                     <% orders.items.forEach((items) =>{ %>
+                                                        <ul>
+                                                            <li><%= items.product.name %></li>
+                                                        </ul>  
+                                                     <% }) %>
+                                                </div>
+                                            </td>
+                                                 
+                                            <td>
+                                                <% orders.items.forEach((items) =>{ %>
+                                                    <ul>
+                                                        <li style="list-style: none;"><%= items.quantity %></li>
+                                                    </ul>
+                                                     
+                                                <% }) %>
+                                            </td>
+                                            <td>
+                                                 ₹<%= orders.total%>
+                                            </td>
+                                            <td>
+                                                <% orders.items.forEach((items) =>{ %>
+                                                    <% if (items.product.photo && items.product.photo.length > 0) { %>
+                                                        <img src="/<%= items.product.photo[0] %>" class="img-thumbnail" width="40px" alt=""> <br>
+                                                      <% } %>
+                                                <% }) %>
+                                            </td>
+                                            <td>
+                                                <%= orders.status%>
+                                                <div>
+                                                    
+                                                    <a type="submit" href="/orderdetail/<%= orders._id %>" class="btn btn-light">Details</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-pencil-alt"></i>Edit</a>
+                                                <div class="dropdown-menu bg-transparent border-0">
+                                                    <form action="/order_update/<%= orders._id %>" method="post">
+                                                        <select name="status">
+                                                            
+                                                            <option value="Pending" <% if (orders.status === 'Pending') { %>selected<% } %>>Pending</option>
+                                                            <option value="Shipped" <% if (orders.status === 'Shipped') { %>selected<% } %>>Shipped</option>
+                                                            <option value="Delivered" <% if (orders.status === 'delivered') { %>selected<% } %>>Delivered</option>
+                                                            <option value="cancelled" <% if (orders.status === 'cancelled') { %>selected<% } %>>Cancel</option>
+                                    
+                                                          </select>
+                                                          <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <%	if (orders.payment_method=="COD") {%> 
+                                                    <%	if (orders.status==="Returned") {%> 
+                                                <div>
+                                                    <form action="/order_refund/<%= orders._id %>" method="post">
+                                                          <button type="submit" value="Refunded" class="btn btn-danger">Refund</button>
+                                                    </form>
+                                                </div>
+                                                <% } %>	
+                                                <% }else if(orders.payment_method=="paypal"||orders.payment_method=="wallet") { %>
+                                                    <%	if (orders.status==="cancelled"||orders.status==="Returned") {%> 
+                                                        <div>
+                                                            <form action="/order_refund/<%= orders._id %>" method="post">
+                                                                  <button type="submit" value="Refunded" class="btn btn-danger">Refund</button>
+                                                            </form>
+                                                        </div>
+                                                        <% } %>	
+                                                <% } %>	
+                                            </td>
+                                          </tr>
+                                          <% }) %>
+                            
+                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- product End -->
+
+
+       
+     
+     <script>
+        $(document).ready(function() {
+            new DataTable('#orderTable')
+  
+   });
+ 
+
+    </script>     
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script>
+    const pdfButton = document.getElementById('download-button');
+    const excelButton = document.getElementById('export-button');
+
+    function generatePDF() {
+        const element = document.getElementById('sales');
+        html2pdf().from(element).save();
+    }
+
+    function export_data() {
+        const data = document.getElementById('salesexcel');
+        const workbook = XLSX.utils.table_to_book(data, { sheet: 'salesexcel' });
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        saveAs(blob, 'salesexcel.xlsx');
+    }
+
+    pdfButton.addEventListener('click', generatePDF);
+    excelButton.addEventListener('click', export_data);
+</script>
+
+   <%- include('footer') %>
