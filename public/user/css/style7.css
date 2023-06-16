@@ -2,8 +2,8 @@
 
 .overlay {
 	position: fixed;
-	width: 12%;
-	height: 55%;
+	width: 200px;
+	height: 350px;
 	
 	right: 0;
 	z-index: 99999;
