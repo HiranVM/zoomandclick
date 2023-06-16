@@ -153,16 +153,27 @@ exports.editpaddress =async (req,res)=>{
 
 
 //delete address
-exports.deleteaddress = async(req,res)=>{
-  try{
+exports.deleteaddress = async (req, res) => {
+  try {
     const addId = req.params.id;
-    
-  }catch (error) {
+    const foundUser = await UserSchema.findOne({ "address._id": addId });
+    if (!foundUser) {
+      return res.status(404).send('User not found');
+    }
+
+    await UserSchema.findOneAndUpdate(
+      { "address._id": addId },
+      { $pull: { address: { _id: addId } } },
+      { new: true }
+    );
+
+    res.redirect(`/profile/${foundUser._id}`);
+  } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
-    }
-  
-}
+  }
+};
+
 
 
 // single product
@@ -469,7 +480,7 @@ console.log(items);
         User.isLogedin = true;
         await User.save(); // Save the updated user
         
-        res.redirect("/index",);
+        res.redirect("/",);
          
         } else {
           const product = await productSchema.find().limit(4)
@@ -495,7 +506,7 @@ exports.log_out = async (req, res) => {
   })
     req.session.authorized=false
     req.session.user = null
-    res.redirect("/index")
+    res.redirect("/")
  
 };
 

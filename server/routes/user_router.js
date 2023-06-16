@@ -40,7 +40,7 @@ const isAuth = (req,res,next)=>{
   if(req.session.user){
     next();
   }else{
-    res.redirect("/index");
+    res.redirect("/");
   }
 }
 
@@ -54,7 +54,7 @@ const isblock = async(req,res,next)=>{
     console.log("block");
     req.session.user=null;
     req.session.authorized=false;
-    res.redirect("/index")
+    res.redirect("/")
   }else {
     next()
   }
@@ -80,7 +80,7 @@ route.get("/wallet",(req, res) => {
 
 //get
 
-route.get('/index',controller.index);
+route.get('/',controller.index);
 route.get('/single/:id',isblock,controller.single);
 route.get('/filter/:id',controller.filter);
 route.get('/contact',isAuth,isblock,isAuth,controller.contact);
@@ -89,7 +89,7 @@ route.get('/product_list',isblock,controller.product_list)
 route.get('/checkout',isblock,controller.checkout);
 route.get('/deleteCartItem/:id',controller.deleteCartItem);
 
-route.get('/deleteadderss/:id',controller.deleteaddress);
+route.get('/delete_address/:id',controller.deleteaddress);
 
 route.get('/viewcart',isAuth,isblock,controller.userCart);
 route.get('/addToCart/:id',controller.add_to_cart);
