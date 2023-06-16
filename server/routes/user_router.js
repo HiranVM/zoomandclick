@@ -83,7 +83,7 @@ route.get("/wallet",(req, res) => {
 route.get('/',controller.index);
 route.get('/single/:id',isblock,controller.single);
 route.get('/filter/:id',controller.filter);
-route.get('/contact',isAuth,isblock,isAuth,controller.contact);
+route.get('/contact',isblock,controller.contact);
 route.get('/about',isblock,controller.about);
 route.get('/product_list',isblock,controller.product_list)
 route.get('/checkout',isblock,controller.checkout);

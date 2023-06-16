@@ -10,7 +10,7 @@ const productSchema = require('../model/product_module')
 
 //send OTP
 exports.sendOTP = async (req, res, next) => {
-  console.log("sms");
+  
     const { phone } = req.body;
     req.session.phone=phone
     console.log(req.body.phone);
@@ -46,7 +46,7 @@ exports.sendOTP = async (req, res, next) => {
 
 //verify OTP
 exports.verifyOTPcreate = async (req, res) => {
-console.log("hi1");
+
   const verificationCode =req.body.otp;
   const phoneNumber = req.session.phone;
   if (!phoneNumber) {
@@ -60,7 +60,7 @@ console.log("hi1");
 
     if (verification_check.status === 'approved') {
       // If the verification is successful, do something
-    console.log("verify");
+
       
       const user = await UserSchema.findOne({email: req.body.email})
       console.log(user);

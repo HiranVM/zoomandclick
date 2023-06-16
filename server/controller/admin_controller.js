@@ -30,7 +30,7 @@ exports.admin_login = (req, res) => {
       email: "admin123@gmail.com" ,
       password: 123456789
     }
-    console.log(adcredentail.email);
+   
     if (req.body.email == adcredentail.email && req.body.password == adcredentail.password) {
         req.session.isAdAuth=true
         res.redirect("/admin");
@@ -80,7 +80,7 @@ exports.admin= async (req, res) => {
         
       })
       
-    console.log(todaySales);
+   
   
     const totalsales = await orderSchema.countDocuments({ status: "Delivered" });
   
@@ -105,7 +105,7 @@ exports.admin= async (req, res) => {
   
     const Revenue = TotalRevenue.length > 0 ? TotalRevenue[0].Revenue : 0;
 
-    console.log(TotalRevenue);
+    
   
     const Orderpending = await orderSchema.countDocuments({ status: "Pending" });
     const OrderReturn = await orderSchema.countDocuments({
@@ -143,7 +143,7 @@ exports.admin= async (req, res) => {
       },
     ]);
   
-    console.log(salesCountByMonth);
+
   
     res.render("admin", {
       todaySales,
@@ -326,7 +326,7 @@ exports.addproduct = async (req, res) => {
       photo: req.files.map((file) => file.filename) // use req.file.buffer to get the file buffer
     });
 
-    const datas = await product.save();
+     await product.save();
 
     res.redirect( "/product");
   }
@@ -383,7 +383,7 @@ exports.addproduct = async (req, res) => {
 exports.orderUpdate = async (req, res) => {
   try {
     const orderId = req.params.id;
-    console.log(orderId);
+    
     const newStatus = req.body.status;
 
     // Update the order using findByIdAndUpdate

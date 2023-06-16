@@ -105,7 +105,7 @@ exports.editaddress =async (req,res)=>{
  const userId = req.session.user?._id;
   const User = await UserSchema.findById(userId)
   const addressIndex = User.address.findIndex((address) => address._id.toString() === id);
-  console.log(addressIndex);
+
   // Update the address fields
   User.address[addressIndex].name = req.body.name;
   User.address[addressIndex].address = req.body.address;
@@ -131,7 +131,7 @@ exports.editpaddress =async (req,res)=>{
  const userId = req.session.user?._id;
   const User = await UserSchema.findById(userId)
   const addressIndex = User.address.findIndex((address) => address._id.toString() === id);
-  console.log(addressIndex);
+ 
   // Update the address fields
   User.address[addressIndex].name = req.body.name;
   User.address[addressIndex].address = req.body.address;
@@ -307,7 +307,7 @@ exports.placeOrder = async (req, res) => {
     const User = req.session.user;
     const user_id = req.session.user?._id;
     const payment_method = req.body.payment_method;
-    console.log(payment_method);
+
 
     const userSchema = await UserSchema.findById(user_id);
 
@@ -343,7 +343,7 @@ console.log(items);
     items.forEach(async(item) => {
       
       const pro= await productSchema.findById(item.product)
-      console.log(pro);
+
       const quan=pro.quantity-item.quantity
       await productSchema.findByIdAndUpdate(item.product,{quantity:quan})
     });
@@ -457,18 +457,20 @@ console.log(items);
   exports.find_user = async (req, res) => {
     if (!req.body.email || req.body.email.trim() === "" || !req.body.password || req.body.password.trim() === "") {
       const product = await productSchema.find().limit(4)
-      return res.status(400).render("index",{product, msg: "Email and password are required."});
+      const banner = await bannerSchema.find()
+      return res.status(400).render("index",{product,banner, msg: "Email and password are required."});
     }
     const email = req.body.email;
   
     const password = req.body.password;
+    const product = await productSchema.find().limit(4)
     const banner = await bannerSchema.find()
     try {
       const User = await UserSchema.findOne({ email: email });
   
       if (User) {
         if(User.isBlocked){
-          const product = await productSchema.find().limit(4)
+          
           res.render("index",{product,banner, msg: "user is blocked" })
         }else{
           const isMatch = await bcrypt.compare(password, User.password);
@@ -483,13 +485,13 @@ console.log(items);
         res.redirect("/",);
          
         } else {
-          const product = await productSchema.find().limit(4)
+         
           res.render("index", {product,banner, msg: "Invalid entry" });
         }
         }
         
       }else{
-        const product = await productSchema.find().limit(4)
+        
           res.render("index", {product,banner, msg: "You need to Signup first!" });
       }
     } catch (error) {
@@ -501,7 +503,7 @@ console.log(items);
 //logout
 exports.log_out = async (req, res) => {
   const { id } = req.params;
-  const User = await UserSchema.findByIdAndUpdate(id, {
+  await UserSchema.findByIdAndUpdate(id, {
     isLogedin: false,
   })
     req.session.authorized=false
@@ -731,7 +733,7 @@ exports.search_product = async (req,res)=>{
     const Category = await categorySchema.find();
     const User = req.session.user;
     const product = await productSchema.find();
-    console.log(product1);
+   
     if(product1.length > 0){
       res.render('shop',{User,Category,product,product1});
     }else{
@@ -750,11 +752,11 @@ exports.pricerange = async (req,res)=>{
     const User = req.session.user;
     const min_price = req.body.min_price;
     const max_price = req.body.max_price;
-    console.log(min_price,max_price);
+   
     const product = await productSchema.find({
       price: { $gte: min_price, $lte: max_price }
     });
-    console.log(product);
+   
     if(product){
       res.render('shop',{User,Category,product});
     }if(product==null){
@@ -774,11 +776,11 @@ exports.paypal_success= async(req,res)=>{
   const paymentId = req.query.paymentId;
   
   const user_id = req.params.id;
-  console.log(user_id);
+  
   const User = await UserSchema.findById(user_id)
   // Update session to maintain user authentication
   req.session.user=User;
-  console.log(User);
+ 
   const execute_payment_json = {
     "payer_id": payerId,
     "transactions": [{
@@ -931,7 +933,7 @@ exports.invoice= async (req,res)=>{
   try{
     const orderId =req.params.id;
     const order_data = await order_model.find({_id:orderId}).populate("items.product").populate("items.quantity")
-    console.log(order_data);
+   
     res.render('invoice',{order_data:order_data[0]});
   }catch (error) {
     console.error(error);
@@ -943,8 +945,8 @@ exports.invoice= async (req,res)=>{
 exports.profilepic = async(req,res)=>{
   try{
     const userId = req.params.id;
-    console.log(userId);
-    const User = await UserSchema.findByIdAndUpdate(userId,{
+  
+    await UserSchema.findByIdAndUpdate(userId,{
       photo:req.file.filename
     })
     res.redirect(`/profile/${userId}`)
@@ -970,8 +972,7 @@ exports.wallet = async (req,res)=>{
       user: user_id,
       payment_method: "wallet"
     });
-    console.log(orderrefund);
-    console.log(order_data);
+    
     res.render('wallet',{User,order_data,orderrefund})
   } catch (err) {
     console.log(err);
