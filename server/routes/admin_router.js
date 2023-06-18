@@ -59,6 +59,8 @@ const isAdAuth = (req,res,next)=>{
 route.get("/admin",admin_controller.admin);
 route.get("/logout",admin_controller.logout);
 
+route.get("/salesreport",admin_controller.salesreport)
+
 route.get("/orderdetail/:id",admin_controller.orderdetail);
 route.get("/order",isAdAuth,admin_controller.order_status)
 

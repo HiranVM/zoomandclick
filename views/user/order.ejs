@@ -33,14 +33,12 @@
 				<div class="top_nav_right">
 					<div class="shoecart shoecart2 cart cart box_1">
 						<% if (locals.User) { %>
-						<form action="#" method="post" class="last">
-							<input type="hidden" name="cmd" value="_cart">
-							<input type="hidden" name="display" value="1">
-							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-						</form>
-						<% }else { %>
-							<button class="top_shoe_cart" type="button" ONCLICK="alert('Hello there!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-							<% } %>	
+							<form action="/viewcart" method="post" class="last">
+								<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							</form>
+							<% }else { %>
+								<button class="top_shoe_cart" type="button" ONCLICK="alert('you need to Login first!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+								<% } %>	
 					</div>
 				</div>
 			</div>
@@ -149,21 +147,38 @@
                                     <% }else if(orders.status==="Returned"|| orders.status==="Refunded" || orders.status==="Delivered" ){ %>
 										<%= orders.status%>
 									<% }else { %>
-                                <div>
-                                    <form action="/order_cancel/<%= orders._id %>" method="post">
-                                          <button type="submit" value="cancelled" class="btn btn-danger">Cancel</button>
-                                    </form>
-                                </div>
+										<button type="button" onclick="canopenPopup()"class="btn btn-danger">Cancel</button>
+										
+										<div id="cepopup" class="rpopup">
+										  <span class="rclose" onclick="canclosePopup()">&times;</span>
+										  <div>
+											<form action="/order_cancel/<%= orders._id %>" method="post">
+												<input type="text" name="reason" required>
+												  <button type="submit" value="cancelled" class="btn btn-danger">Cancel</button>
+											</form>
+										</div>
+										</div>
                                 <% } %>	
                             </td>
                             <td>
 
 									<%	if (orders.status==="Delivered") {%> 
-                                <div>
-                                    <form action="/order_Return/<%= orders._id %>" method="post">
-                                          <button type="submit" value="Return" class="btn btn-danger">Return</button>
-                                    </form>
-                                </div>
+
+										<button type="button" onclick="openPopup()"class="btn btn-danger">Return</button>
+										
+     								<div id="repopup" class="rpopup">
+     								  <span class="rclose" onclick="closePopup()">&times;</span>
+									   <div>
+										<form action="/order_Return/<%= orders._id %>" method="post">
+											<input type="text" name="reason" required>
+											  <button type="submit" value="Return" class="btn btn-danger">Return</button>
+										</form>
+									</div>
+     								</div>
+
+                               
+
+
                                 <% } %>	
                             </td>
                             
@@ -209,5 +224,20 @@
 
 	<!-- //order -->
 
+	<script>
+		// Get the popup and close button elements
+	function openPopup() {
+  document.getElementById('repopup').style.display = 'block';
+}
+function closePopup() {
+  document.getElementById('repopup').style.display = 'none';
+}
+	function canopenPopup() {
+  document.getElementById('cepopup').style.display = 'block';
+}
+function canclosePopup() {
+  document.getElementById('cepopup').style.display = 'none';
+}
+	</script>
 
     <%- include('footers') %>

@@ -33,14 +33,12 @@
             <div class="top_nav_right">
                 <div class="shoecart shoecart2 cart cart box_1">
                     <% if (locals.User) { %>
-                    <form action="#" method="post" class="last">
-                        <input type="hidden" name="cmd" value="_cart">
-                        <input type="hidden" name="display" value="1">
-                        <button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                    </form>
-                    <% }else { %>
-                        <button class="top_shoe_cart" type="button" ONCLICK="alert('Hello there!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-                        <% } %>	
+						<form action="/viewcart" method="post" class="last">
+							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+						</form>
+						<% }else { %>
+							<button class="top_shoe_cart" type="button" ONCLICK="alert('you need to Login first!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<% } %>	
                 </div>
             </div>
         </div>
@@ -92,7 +90,7 @@
   <!-- Widgets Start -->
   <div class="container-fluid orderdetaibg pt-4 px-4">
     <div class="row g-4">
-        <div class="col-sm-12 col-md-6 col-xl-8">
+        <div class="col-sm-12 col-md-8 col-xl-8">
             <div class="h-100 bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h3 class="mb-0 text-success">Products Details</h3>
@@ -135,7 +133,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6 col-xl-4">
+        <div class="col-sm-12 col-md-4 col-xl-4">
             <div class="h-100 bg-secondary rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h3 class="mb-0 text-success ">Order Details</h3>
@@ -146,6 +144,10 @@
                         <li><h4>Customer Name: <span> <%= order_data.user.name %>  </span> </h4></li>
                         <li><h4>Ordered Date: <span> <%= order_data.createdAt.toLocaleDateString() %>  </span> </h4> </li>
                         <li><h4>Ordered Status: <span> <%= order_data.status %>  </span> </h4> </li>
+                        <% if (locals.order_data.reason) { %>
+                        <li><h4>Reason: <span> <%= order_data.reason %>  </span> </h4> </li>
+                        <% } %>	
+                        <li><h4>Discount: <span> ₹<%= order_data.discount %>  </span> </h4> </li>
                         <li><h4>Total Price: <span> ₹<%= order_data.total %>  </span> </h4> </li>
                         <li><h4>Payment Method: <span> <%= order_data.payment_method %>  </span> </h4> </li>
                     </ul>

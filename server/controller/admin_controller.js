@@ -762,10 +762,11 @@ exports.filterorder = async (req,res)=>{
     const preDate = new Date(req.body.preDate) 
     const postDate = new Date(req.body.postDate) 
     
+    
     const order_data = await orderSchema.find({
       createdAt: { $gte: preDate, $lte: postDate }
     }).populate("user").populate("items.product").populate("items.quantity")
-    res.render('order_status',{order_data});
+    res.render('salesreport',{order_data,preDate:req.body.preDate,postDate:req.body.postDate});
   } catch (error) {
     console.error(error);
     res.send(error);
@@ -892,3 +893,14 @@ exports.delete_banner = async(req,res)=>{
 }
 
 
+//sales report
+exports.salesreport = async(req,res)=>{
+  try{
+    const preDate = ""
+    const postDate = ""
+    const order_data = await orderSchema.find().populate("user").populate("items.product").populate("items.quantity")
+    res.render("salesreport",{order_data,preDate,postDate})
+  } catch (err) {
+  res.status(500).send(err.message); // Send error response with status code 500
+}
+}

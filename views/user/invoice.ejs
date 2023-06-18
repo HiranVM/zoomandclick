@@ -147,15 +147,7 @@
 
     button.addEventListener('click', generatePDF);
 
-    function export_data() {
-        let data = document.getElementById('invoice');
-        var fp = XLSX.utils.table_to_book(data, { sheet: 'arjun' });
-        XLSX.write(fp, {
-            bookType: 'xlsx',
-            type: 'base64'
-        });
-        XLSX.writeFile(fp, 'test.xlsx');
-    }
+   
 </script>
 </body>
 </html>

@@ -9,7 +9,7 @@ const couponSchema = require('../model/coupon')
 const bannerSchema = require('../model/banner')
 const paypal = require('paypal-rest-sdk')
 // const { Message } = require('twilio/lib/twiml/MessagingResponse')
-
+const ITEMS_PER_PAGE = 9;
 require('dotenv').config();
 
 // index
@@ -29,13 +29,14 @@ exports.index= async(req,res)=>{
 //filter 
 exports.filter = async (req,res)=>{
   try{
+    
     const id = req.params.id;
     const categori = await categorySchema.findOne({_id:id});
-    const product = await productSchema.find({category_name:categori.category})
-
+    const product1 = await productSchema.find({category_name:categori.category})
+    const product2 = await productSchema.find().limit(4)
     const Category = await categorySchema.find();
     const User = req.session.user
-    res.render("shop", { product,Category,User });
+    res.render("shop", { product1,product2 ,Category,User });
   }
   catch(error){
     console.log(error);
@@ -200,11 +201,20 @@ exports.single = async (req, res) => {
 };
 //show product
 exports.product_list = async (req, res) => {
+  
   try{
-    const product = await productSchema.find();
+    const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * ITEMS_PER_PAGE;
+  const totalProducts = await productSchema.countDocuments();
+  const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+
+  const product = await productSchema.find().skip(skip)
+  .limit(ITEMS_PER_PAGE);
+  const product2 = await productSchema.find().limit(4)
   const Category = await categorySchema.find();
   const User = req.session.user
-  res.render("shop", { product,Category,User }); 
+  res.render("shop", { product,Category, product2, currentPage: page,
+    totalPages,User }); 
   } catch(error){
     console.log(error);
     res.status(500).sens({error:"internal server error"})
@@ -683,11 +693,11 @@ exports.order_details = async (req,res)=>{
   try {
     const id =req.params.id;
     const order_data = await order_model.find({user:id}).populate("items.product").populate("items.quantity")
-
+    const User = await UserSchema.findById(id)
     
 
     res.render("order", {
-      order_data
+      order_data,User
     });
   } catch (error) {
     console.error(error);
@@ -699,10 +709,11 @@ exports.order_details = async (req,res)=>{
 exports.ordercancel = async (req, res) => {
   try {
     const orderId = req.params.id;
+    const reason = req.body.reason
     const cancelled ="cancelled"
     const orda = await order_model.findById(orderId)
     // Update the order using findByIdAndUpdate
-    await order_model.findByIdAndUpdate(orderId, { status: cancelled });
+    await order_model.findByIdAndUpdate(orderId, { status: cancelled,reason:reason });
     const order_data = await order_model.find({user:orda.user}).populate("items.product").populate("items.quantity")
     res.render('order',{order_data});
   } catch (error) {
@@ -715,9 +726,10 @@ exports.ordercancel = async (req, res) => {
 exports.orderdetailspage =async (req,res)=>{
   try{
     const id = req.params.id;
-    
+    const use = req.session.user;
+    const User = await UserSchema.findById(use._id)
     const order_data = await order_model.findOne({_id: id}).populate("user").populate("items.product").populate("items.quantity")
-   res.render('orderdetail',{order_data})
+   res.render('orderdetail',{order_data,User})
     
   } catch (error) {
     console.error(error);
@@ -728,16 +740,26 @@ exports.orderdetailspage =async (req,res)=>{
 //search product 
 exports.search_product = async (req,res)=>{
   try{
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+    const totalProducts = await productSchema.countDocuments();
+    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
     const pro = req.body.product;
-    const product1 = await productSchema.find({ name: { $regex: new RegExp(`^${pro}`, 'i') } });
+    const product2 = await productSchema.find().limit(4)
+    const product1 = await productSchema.find({ name: { $regex: new RegExp(`^${pro}`, 'i') } }).skip(skip)
+    .limit(ITEMS_PER_PAGE);
+
     const Category = await categorySchema.find();
     const User = req.session.user;
-    const product = await productSchema.find();
+    const product = await productSchema.find().skip(skip)
+    .limit(ITEMS_PER_PAGE);
+
    
     if(product1.length > 0){
-      res.render('shop',{User,Category,product,product1});
+      res.render('shop',{User,Category,product,product2,product1});
     }else{
-      res.render('shop',{User,Category,product, message:"there is no product"});
+      res.render('shop',{User,Category,product,product2, currentPage: page,
+        totalPages, message:"there is no product"});
     }
   }catch (error) {
     console.error(error);
@@ -748,20 +770,33 @@ exports.search_product = async (req,res)=>{
 //price range
 exports.pricerange = async (req,res)=>{
   try{
+    const page = parseInt(req.query.page) || 1;
+    const skip = (page - 1) * ITEMS_PER_PAGE;
+    const totalProducts = await productSchema.countDocuments();
+    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
     const Category = await categorySchema.find();
     const User = req.session.user;
     const min_price = req.body.min_price;
     const max_price = req.body.max_price;
-   
+    const product2 = await productSchema.find().limit(4)
     const product = await productSchema.find({
       price: { $gte: min_price, $lte: max_price }
     });
-   
+    const procount = await productSchema.find({
+      price: { $gte: min_price, $lte: max_price }
+    }).countDocuments();
+
+
+   if(!procount){
+      const product = await productSchema.find().skip(skip)
+      .limit(ITEMS_PER_PAGE);
+      res.render('shop',{User,Category,product2,product, currentPage: page,
+        totalPages , msg:"there is no products in this price range"});
+    }
     if(product){
-      res.render('shop',{User,Category,product});
-    }if(product==null){
-      const product = await productSchema.find();
-      res.render('shop',{User,Category,product, msg:"there is no products in this price range"});
+        const productss = await productSchema.find()
+        res.render('shop',{User,Category,product2,product:productss,product1:product});
+      
     }
   }catch (error) {
     console.error(error);
@@ -919,8 +954,9 @@ exports.return= async (req,res)=>{
   try{
     const orderId =req.params.id;
     const returned = "Returned"
+    const reason = req.body.reason;
     const orda = await order_model.findById(orderId)
-    await order_model.findByIdAndUpdate(orderId, { status: returned });
+    await order_model.findByIdAndUpdate(orderId, { status: returned,reason:reason });
     const order_data = await order_model.find({user:orda.user}).populate("items.product").populate("items.quantity")
     res.render('order',{order_data});
   }catch (error) {

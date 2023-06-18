@@ -28,6 +28,9 @@ const orderSchema = new mongoose.Schema({
   discount:{
     type:Number
   },
+  reason:{
+    type:String
+  },
   total: {
     type: Number,
     required: true,
