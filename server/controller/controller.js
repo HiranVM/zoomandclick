@@ -533,14 +533,18 @@ exports.userCart = async (req, res) => {
           const cart = await cartSchema.findOne({ userId: userId }).populate(
             "products.productId"
           )
-          const productCount = cart.products.length;
+          if(cart){
+            const productCount = cart.products.length;
           
           if (productCount>0) {
             const products = cart.products
             res.render('cart', { User, products,productCount })
           } else {
             res.render('cart',{User})
+          }}else{
+            res.render('cart',{User})
           }
+          
           // res.render('user/cart',{user,products})
       } catch (error) {
           console.error(error);
