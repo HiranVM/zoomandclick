@@ -218,9 +218,40 @@ input[type=range] {
     color: #000;
     text-decoration: none;
 }
+
+@media(max-width:985px){
+    
+    .dlist-align{
+       
+        padding-bottom: 0px;
+    }
+}
+
 @media(max-width:767px){
     .card{
         margin: 3vh auto;
+    }
+    .value-minus,
+    .value-plus {
+	height: 20px;
+	line-height: 24px;
+	width: 20px;
+	
+    }
+    .qwid{
+        width: 90px;
+    }
+
+    .value {
+       
+        width: 20px;
+        height: 20px;
+        
+    }
+
+    .dlist-align{
+       
+        padding-bottom: 0px;
     }
 }
 .cartt{
@@ -234,6 +265,10 @@ input[type=range] {
         padding: 4vh;
         border-bottom-left-radius: unset;
         border-top-right-radius: 1rem;
+    }
+    .dlist-align{
+       
+        padding-bottom: 0px;
     }
 }
 .summary{

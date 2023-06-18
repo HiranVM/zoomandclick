@@ -120,9 +120,9 @@
    
 		<div class="container card rounded mt-5 mb-5" style="background-color: white;">
 			<div class="row" style="padding-bottom: 20px;">
-				<div class="col-md-9 border-right">
+				<div class="col-md-9 col-xs-12  border-right">
 					<div class="checkout-right">
-						<h4>Your shopping cart contains: <span>Products</span></h4>
+						<h4>Your shopping cart contains: <span><%= productCount %> Products</span></h4>
 						
 						<table class="timetable_sub">
 							<thead>
@@ -143,7 +143,7 @@
 									<td class="invert"><%= index+1 %></td>
 									<td class="invert-image"><a href="/single/<%= product.productId._id %>"><img src="<%= product.productId.photo[0] %>" alt=" " class="img-responsive"></a></td>
 									<td class="invert">
-										<div class="quantity">
+										<div class="quantity qwid">
 											<div class="quantity-select">
 												<div class="entry value-minus " id="decrement_<%= product.productId._id %>" onclick="decrementQuantity('<%= product.productId._id %>')">&nbsp;</div>
 												<div class="entry value" id="quantity_<%= product.productId._id %>"><span><%=product.quantity%></span></div>
@@ -173,7 +173,7 @@
 						
 					</div>
 				</div>
-				<div class="col-md-3 border-right">
+				<div class="col-md-3 col-xs-12  border-right">
 					
 			<div class="card mb-3">
 				<div class="card-body">
