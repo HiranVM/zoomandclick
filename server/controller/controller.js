@@ -423,8 +423,8 @@ console.log(items);
         intent: "sale",
         payer: { payment_method: "paypal" },
         redirect_urls: {
-          return_url: `http://127.0.0.1:3500/paypal-success/${user_id}`,
-          cancel_url: "http://127.0.0.1:3500/paypal-err",
+          return_url: `https://zoomandclick.shop/paypal-success/${user_id}`,
+          cancel_url: "https://zoomandclick.shop/paypal-err",
         },
         transactions: [
           {
