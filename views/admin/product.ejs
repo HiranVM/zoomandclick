@@ -52,7 +52,7 @@
                                                 ></span>
                                               </a>
                                               <a
-                                                href="/delete_product/<%= product._id%>"
+                                                onclick="confirmProductRemove(event,'<%= product._id%>')"
                                                 class="btn border-shadow delete"
                                               >
                                                 <span class="text-gradient"
@@ -73,7 +73,34 @@
             </div>
             <!-- product End -->
 
-           
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   <script>
+    function confirmProductRemove(event, productId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to delete this product",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, deleted product!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product deleted from the website",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500, // Display success message for 1.5 seconds
+        }).then(() => {
+          window.location.href = "/delete_product/" + productId;
+        });
+      }
+    });
+  }
+   </script>        
 
 
    <%- include('footer') %>

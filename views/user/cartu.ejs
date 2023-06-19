@@ -308,6 +308,30 @@
 
 	</script>
 	<!--quantity-->
+	<script>
+		
+		function confirmProductRemove(event, product) {
+  event.preventDefault();
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You are about to remove this product",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, remove it!",
+    cancelButtonText: "No, cancel",
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+		Swal.fire({
+        title: "Deleted!",
+        text: "Product Delete From Cart",
+        icon: "success"
+      })
+      productRemove(product);
+    }
+  });
+}
+	</script>
 
 
 	<%- include('footers') %>

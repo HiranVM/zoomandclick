@@ -34,7 +34,7 @@
                   <td>
                     <% if(user.isBlocked){ %>
                     <a
-                      href="/unblock_user/<%= user._id %>"
+                       onclick="confirmunblock(event,'<%= user._id %>')"
                       class="btn border-shadow update"
                     >
                       <span class="text-gradient"
@@ -44,7 +44,7 @@
                     <% } else{ %>
   
                     <a
-                      href="/block_user/<%= user._id %>"
+                       onclick="confirmProductRemove(event,'<%= user._id %>')"
                       class="btn border-shadow update"
                     >
                       <span class="text-gradient"
@@ -71,10 +71,64 @@
   </div>
   <!-- Table End -->
   
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
   <script>
     setTimeout(() => {
       document.getElementById("msg").style.display = "none";
     }, 1000);
+  </script>
+
+<script>
+  function confirmProductRemove(event, userId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to block this user",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, block him!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Blocked!",
+          text: "User blocked from the website",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500, // Display success message for 1.5 seconds
+        }).then(() => {
+          window.location.href = "/block_user/" + userId;
+        });
+      }
+    });
+  }
+  function confirmunblock(event, userId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to unblock this user",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, unblock him!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Unblocked!",
+          text: "User unblocked",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500, // Display success message for 1.5 seconds
+        }).then(() => {
+          window.location.href = "/unblock_user/" + userId;
+        });
+      }
+    });
+  }
   </script>
   
 
