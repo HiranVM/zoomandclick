@@ -148,7 +148,7 @@
 										<div class="col-md-6">
 										  <img class="pp-img" src="/images/paypal.png" alt="Image Alternative text" title="Image Title">
 										  <label class="anim">
-											<input type="checkbox" value="paypal" name="payment_method" class="checkbox" onclick="handleCheckboxClick(this)">
+											<input type="checkbox" value="paypal" name="payment_method" class="checkbox" onchange="handlePaymentSelection(this)">
 											<span>Pay with PayPal</span>
 										  </label>
 										</div>
@@ -156,7 +156,7 @@
 											<% let Ttotal = (cart.total-cart.discount)+50 %>
 											<% if (Ttotal<=User.totalWallet) { %>
 										  <label class="anim">
-											<input type="checkbox" value="wallet" name="payment_method" class="checkbox" onclick="handleCheckboxClick(this)">
+											<input type="checkbox" value="wallet" name="payment_method" class="checkbox" onchange="handlePaymentSelection(this)">
 											<span>Pay with Wallet</span>
 										  </label>
 										  <% } else { %>
@@ -185,219 +185,21 @@
 		<div class="clearfix"></div>
 	</div>
 	
-	<!-- footer -->
-	<div class="footer_agileinfo_w3">
-		<div class="footer_inner_info_w3ls_agileits">
-			<div class="col-md-3 footer-left">
-				<h2><a href="/"><span>D</span>owny Shoes </a></h2>
-				<p>Lorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
-				<ul class="social-nav model-3d-0 footer-social social two">
-					<li>
-						<a href="#" class="facebook">
-							<div class="front"><i class="fa fa-facebook" aria-hidden="true"></i></div>
-							<div class="back"><i class="fa fa-facebook" aria-hidden="true"></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="twitter">
-							<div class="front"><i class="fa fa-twitter" aria-hidden="true"></i></div>
-							<div class="back"><i class="fa fa-twitter" aria-hidden="true"></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="instagram">
-							<div class="front"><i class="fa fa-instagram" aria-hidden="true"></i></div>
-							<div class="back"><i class="fa fa-instagram" aria-hidden="true"></i></div>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="pinterest">
-							<div class="front"><i class="fa fa-linkedin" aria-hidden="true"></i></div>
-							<div class="back"><i class="fa fa-linkedin" aria-hidden="true"></i></div>
-						</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-md-9 footer-right">
-				<div class="sign-grds">
-					<div class="col-md-4 sign-gd">
-						<h4>Our <span>Information</span> </h4>
-						<ul>
-							<li><a href="/">Home</a></li>
-							<li><a href="/about">About</a></li>
-							<li><a href="/404">Services</a></li>
-							<li><a href="/404">Short Codes</a></li>
-							<li><a href="/contact">Contact</a></li>
-						</ul>
-					</div>
-
-					<div class="col-md-5 sign-gd-two">
-						<h4>Store <span>Information</span></h4>
-						<div class="address">
-							<div class="address-grid">
-								<div class="address-left">
-									<i class="fa fa-phone" aria-hidden="true"></i>
-								</div>
-								<div class="address-right">
-									<h6>Phone Number</h6>
-									<p>+1 234 567 8901</p>
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-							<div class="address-grid">
-								<div class="address-left">
-									<i class="fa fa-envelope" aria-hidden="true"></i>
-								</div>
-								<div class="address-right">
-									<h6>Email Address</h6>
-									<p>Email :<a href="mailto:example@email.com"> mail@example.com</a></p>
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-							<div class="address-grid">
-								<div class="address-left">
-									<i class="fa fa-map-marker" aria-hidden="true"></i>
-								</div>
-								<div class="address-right">
-									<h6>Location</h6>
-									<p>Broome St, NY 10002,California, USA.
-
-									</p>
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 sign-gd flickr-post">
-						<h4>Flickr <span>Posts</span></h4>
-						<ul>
-							<li><a href="#"><img src="/images/t1.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t2.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t3.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t4.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t5.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t6.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t7.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t2.jpg" alt=" " class="img-responsive" /></a></li>
-							<li><a href="#"><img src="/images/t4.jpg" alt=" " class="img-responsive" /></a></li>
-						</ul>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-
-			
-		</div>
-	</div>
-	</div>
-	<!-- modal -->
-	<div class="modal fade auto-off" id="demoModal2" tabindex="-1" role="dialog" aria-labelledby="demoModal"
-  aria-hidden="true">
-  <div class="modal-dialog animated zoomInDown modal-dialog-centered" role="document">
-    <div class="modal-content">
-
-      <div class="container-fluid">
-
-        <div class="row py-5">
-          <div class="col-md-12 m-h-20 bg-img rounded-left text-center">
-            <img style="max-width: 20%;"
-              src="https://lirp.cdn-website.com/bbca9e7c/dms3rep/multi/opt/green-tick-icon-0-1000x1000-640w.png" alt="">
-          </div>
-          <div class="col-md-12 text-center pt-4 px-sm-5 ">
-
-            <h2>Order Placed Successfuly</h2>
-            <p class="text-muted"></p>
-            <a href="/orders"><button class="btn btn-dark w-50">Go to Orders</button></a>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-	<!-- modal -->
-	<!-- //footer -->
-   <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-	<!-- js -->
-	<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
-	<!-- //js -->
-	<!-- cart-js -->
-	
-	<!-- //cart-js -->
-	<!-- /nav -->
-	<script src="/js/modernizr-2.6.2.min.js"></script>
-	<script src="/js/classie.js"></script>
-	<script src="/js/demo1.js"></script>
-	<!-- //nav -->
-	<!--search-bar-->
-	<script src="/js/search.js"></script>
-	<!--//search-bar-->
-	<!-- easy-responsive-tabs -->
-	<script src="/js/easy-responsive-tabs.js"></script>
-	<script>
-		$(document).ready(function () {
-			$('#horizontalTab').easyResponsiveTabs({
-				type: 'default', //Types: default, vertical, accordion           
-				width: 'auto', //auto or any width like 600px
-				fit: true, // 100% fit in a container
-				closed: 'accordion', // Start closed if in accordion view
-				activate: function (event) { // Callback function if tab is switched
-					var $tab = $(this);
-					var $info = $('#tabInfo');
-					var $name = $('span', $info);
-					$name.text($tab.text());
-					$info.show();
-				}
-			});
-			$('#verticalTab').easyResponsiveTabs({
-				type: 'vertical',
-				width: 'auto',
-				fit: true
-			});
-		});
-	</script>
-
 	<!-- credit-card -->
 	<script>
-		function handleCheckboxClick(checkbox) {
-    var checkboxes = document.getElementsByClassName("checkbox");
-    var placeOrderBtn = document.getElementById("placeOrderBtn");
-    var checkedCount = 0;
-    
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        checkedCount++;
-      }
-    }
-    
-    if (checkedCount > 0) {
-      placeOrderBtn.disabled = false;
-    } else {
-      placeOrderBtn.disabled = true;
-    }
-  }
+		function handlePaymentSelection(checkbox) {
+		  var checkboxes = document.getElementsByClassName("checkbox");
+		  var placeOrderBtn = document.getElementById("placeOrderBtn");
+		  
+		  for (var i = 0; i < checkboxes.length; i++) {
+			if (checkboxes[i] !== checkbox) {
+			  checkboxes[i].checked = false;
+			}
+		  }
+		  
+		  placeOrderBtn.disabled = !checkbox.checked;
+		}
 	  </script>
 	<!-- //credit-card -->
 
-
-	<!-- start-smoth-scrolling -->
-	<script type="text/javascript" src="/js/move-top.js"></script>
-	<script type="text/javascript" src="/js/easing.js"></script>
-	<script type="text/javascript">
-		jQuery(document).ready(function ($) {
-			$(".scroll").click(function (event) {
-				event.preventDefault();
-				$('html,body').animate({
-					scrollTop: $(this.hash).offset().top
-				}, 1000);
-			});
-		});
-	</script>
-	<!-- //end-smoth-scrolling -->
-	<script type="text/javascript" src="/js/bootstrap-3.1.1.min.js"></script>
-
-
-</body>
-
-</html>
+	<%- include('footers') %>

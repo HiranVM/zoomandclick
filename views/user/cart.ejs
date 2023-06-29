@@ -246,7 +246,7 @@
 
 		function incrementQuantity(cartId) {
 			const remain = document.getElementById(`remains_${cartId}`);
-             if (remain.innerText == "out of stock") {
+             if (remain.innerText == "out of stock"||remain.innerText ==0) {
 				Toastify({
 						text: "out of stock",
 						duration: 3000,

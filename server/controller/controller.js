@@ -560,8 +560,14 @@ exports.add_to_cart = async (req, res) => {
   try {
       const userId = req.session.user?._id;
       const productId = req.params.id;
-
-      let userCart = await cartSchema.findOne({ userId: userId })
+      const product_data = await productSchema.findById(productId)  
+      if(product_data.quantity<1){
+        return res.json({
+          status: "success",
+          message: "out of stock",
+         });
+      }else{
+        let userCart = await cartSchema.findOne({ userId: userId })
 
       if(!userCart) {
           // If the user's cart doesn't exist, create a new cart
@@ -574,20 +580,32 @@ exports.add_to_cart = async (req, res) => {
           (product) => product.productId == productId
       );
 
-
-      
+     
       if(productIndex === -1) {
           // If the product is not in the cart, add it
           userCart.products.push({ productId, quantity: 1 })
-      } else {
-          // If the product is already in the cart, increase its quantity by 1
-          userCart.products[productIndex].quantity +=1;
+      }
+       else {
+        console.log(userCart.products[productIndex].quantity);
+          if(product_data.quantity<=userCart.products[productIndex].quantity){
+            return res.json({
+              status: "success",
+              message: "out of stock",
+             });
+          }else{
+                     // If the product is already in the cart, increase its quantity by 1
+                     userCart.products[productIndex].quantity +=1;
+          }
+          
+          
       }
       await userCart.save();
       res.json({
         status: "success",
         message: "added to cart",
        });
+      }
+      
 
   } catch (error) {
       console.error(error);
