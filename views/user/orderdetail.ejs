@@ -15,7 +15,7 @@
                     <ul>
                         <%	if (locals.User && locals.User.name) {%> 
                             <%	if (User.isLogedin) {%> 
-                      <li> <a href=""><%= locals.User.name %></a></li>
+                      <li> <a href="/profile/<%= User._id %>"><%= locals.User.name %></a></li>
                       <li> <a href="/order/<%= User._id %>">Orders</a></li>
                             <% } %>
                             <% } %>
