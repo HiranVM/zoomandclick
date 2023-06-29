@@ -586,7 +586,7 @@ exports.add_to_cart = async (req, res) => {
           userCart.products.push({ productId, quantity: 1 })
       }
        else {
-        console.log(userCart.products[productIndex].quantity);
+        
           if(product_data.quantity<=userCart.products[productIndex].quantity){
             return res.json({
               status: "success",
