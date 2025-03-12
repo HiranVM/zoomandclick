@@ -1,0 +1,105 @@
+<%- include('header') %>
+
+            <!-- product Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Banner Details</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No:</th>
+                                            <th scope="col">Banner Heading</th>
+                                            <th scope="col">description</th>
+                                        
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% banner.forEach(function(banner,index) { %>
+                                        <tr>
+                                
+                                            <td><%= index+1 %></td>
+                                            <td>
+                                              <span class="product-name">
+                                                <% const bannerName1 = banner.bannerName.length > 25 ? banner.bannerName.substring(0, 25) + '...' : banner.bannerName; %>
+                                                <%= bannerName1 %> 
+                                              </span>
+                                            </td>
+                                            <td><%= banner.description %></td>
+                                  
+                                            <td>
+                                            
+                                              <img
+                                                class="img-thumbnail"
+                                                width="100px"
+                                                src=" <%=banner.photo %>"
+                                              />
+                                            </td>
+                                            <td>
+                                              <a
+                                                href="/editbanner_page/<%= banner._id %>"
+                                                class="btn border-shadow update"
+                                              >
+                                                <span class="text-gradient"
+                                                  ><i class="fas fa-pencil-alt"></i
+                                                ></span>
+                                              </a>
+                                              <a
+                                                href="/delete_banner/<%= banner._id%>"
+                                                onclick="confirmProductRemove(event,'<%= banner._id%>')"
+                                                class="btn border-shadow delete"
+                                              >
+                                                <span class="text-gradient"
+                                                  ><i class="fas fa-times"></i
+                                                ></span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          <% }) %>
+                            
+                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- product End -->
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+             function confirmProductRemove(event, bannerId) {
+             event.preventDefault();
+             Swal.fire({
+               title: "Are you sure?",
+               text: "You are about to delete this banner",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonText: "Yes, deleted banner!",
+               cancelButtonText: "No, cancel",
+               reverseButtons: true,
+             }).then((result) => {
+               if (result.isConfirmed) {
+                 Swal.fire({
+                   title: "Deleted!",
+                   text: "banner deleted from the website",
+                   icon: "success",
+                   showConfirmButton: false,
+                   timer: 1500, // Display success message for 1.5 seconds
+                 }).then(() => {
+                   window.location.href = "/delete_banner/" + bannerId;
+                 });
+               }
+             });
+           }
+            </script>        
+
+
+   <%- include('footer') %>

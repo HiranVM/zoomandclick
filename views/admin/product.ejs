@@ -1,0 +1,106 @@
+<%- include('header') %>
+
+            <!-- product Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Product Details</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No:</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">quantity</th>
+                                            <th scope="col">Brand</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Action</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% product_data.forEach(function(product,index) { %>
+                                        <tr>
+                                
+                                            <td><%= index+1 %></td>
+                                            <td>
+                                              <span class="product-name">
+                                                <% const productName1 = product.name.length > 25 ? product.name.substring(0, 25) + '...' : product.name; %>
+                                                <%= productName1 %> 
+                                              </span>
+                                            </td>
+                                            <td><%= product.price %></td>
+                                            <td><%= product.quantity %></td>
+                                            <td><%= product.category_name %></td>
+                                            <td>
+                                            
+                                              <img
+                                                class="img-thumbnail"
+                                                width="100px"
+                                                src=" <%=product.photo[0] %>"
+                                              />
+                                            </td>
+                                            <td>
+                                              <a
+                                                href="/edit_pdt/<%= product._id %>"
+                                                class="btn border-shadow update"
+                                              >
+                                                <span class="text-gradient"
+                                                  ><i class="fas fa-pencil-alt"></i
+                                                ></span>
+                                              </a>
+                                              <a
+                                                onclick="confirmProductRemove(event,'<%= product._id%>')"
+                                                class="btn border-shadow delete"
+                                              >
+                                                <span class="text-gradient"
+                                                  ><i class="fas fa-times"></i
+                                                ></span>
+                                              </a>
+                                            </td>
+                                          </tr>
+                                          <% }) %>
+                            
+                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- product End -->
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   <script>
+    function confirmProductRemove(event, productId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to delete this product",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, deleted product!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Product deleted from the website",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500, // Display success message for 1.5 seconds
+        }).then(() => {
+          window.location.href = "/delete_product/" + productId;
+        });
+      }
+    });
+  }
+   </script>        
+
+
+   <%- include('footer') %>

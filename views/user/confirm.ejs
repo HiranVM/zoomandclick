@@ -1,0 +1,210 @@
+<%- include('headers') %>
+	<!-- banner -->
+    <div class="banner_top innerpage" id="home">
+		<div class="wrapper_top_w3layouts">
+			<div class="header_agileits">
+				<div class="logo inner_page_log">
+					<h1><a class="navbar-brand" href="/"><span>ZOOM</span> <i>& CLICK</i></a></h1>
+				</div>
+				<div class="overlay overlay-contentpush">
+					<button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+
+					<nav>
+						<ul>
+							<li><a href="/" class="active">Home</a></li>
+							<li><a href="/about">About</a></li>
+							
+							<li><a href="/product_list">Shop Now</a></li>
+							<li><a href="/contact">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="mobile-nav-button">
+					<button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+				</div>
+				<!-- cart details -->
+				<div class="top_nav_right">
+					<div class="shoecart shoecart2 cart cart box_1">
+						<% if (locals.User) { %>
+						<form action="#" method="post" class="last">
+							<input type="hidden" name="cmd" value="_cart">
+							<input type="hidden" name="display" value="1">
+							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+						</form>
+						<% }else { %>
+							<button class="top_shoe_cart" type="button" ONCLICK="alert('Hello there!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<% } %>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //cart details -->
+		<!-- search -->
+		<div class="search_w3ls_agileinfo">
+			<div class="cd-main-header">
+				<ul class="cd-header-buttons">
+					<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+				</ul>
+			</div>
+			<div id="cd-search" class="cd-search">
+				<form action="#" method="post">
+					<input name="Search" type="search" placeholder="Click enter after typing...">
+				</form>
+			</div>
+		</div>
+		<!-- //search -->
+
+		  <!-- sign in -->
+		  <div class="sign_in">
+			<% if (locals.User) { %>
+				<%	if (User.isLogedin) {%>
+				<form action="/log_out/<%= User._id%>" method="post">   <button type="submit" class="btn log_out">logout</button>   </form>
+				<% } %>
+			<% } else { %>
+					<a href="" data-toggle="modal" class="btn" data-target="#myModal">Sign In </a>
+			<% } %>		
+		  </div>
+		  <!-- //sign in -->
+
+		<div class="clearfix"></div>
+		<!-- /banner_inner -->
+		<div class="services-breadcrumb_w3ls_agileinfo">
+			<div class="inner_breadcrumb_agileits_w3">
+
+				<ul class="short">
+					<li><a href="/">Home</a><i>|</i></li>
+					<li>confirm</li>
+				</ul>
+			</div>
+		</div>
+		<!-- //banner_inner -->
+	</div>
+
+	<!-- //banner -->
+
+
+	<!-- confirm -->
+	
+	
+	<!--================ confirmation part start =================-->
+    <div class="modal-dialog animated zoomInDown modal-dialog-centered" role="document">
+		<div class="modal-content">
+	
+		  <div class="container-fluid">
+	
+			<div class="row py-5">
+			  <div class="col-md-12 m-h-20 bg-img rounded-left text-center">
+				<img style="max-width: 20%;"
+				  src="https://lirp.cdn-website.com/bbca9e7c/dms3rep/multi/opt/green-tick-icon-0-1000x1000-640w.png" alt="">
+			  </div>
+			  <div class="col-md-12 text-center pt-4 px-sm-5 ">
+	
+				<h2>Order Placed Successfuly</h2>
+				<p class="text-muted"></p>
+				<a href="/order/<%= User._id %>"><button class="btn btn-warning w-50">Go to Orders</button></a>
+	
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	<section class="confirmation_part section_padding">
+	  <div class="container">
+		<div class="row">
+		  <div class="col-lg-12">
+			<div class="confirmation_tittle">
+			  <span>Thank you. Your order has been received.</span>
+			</div>
+		  </div>
+		  <div class="col-lg-6 col-lx-4">
+			<div class="single_confirmation_details">
+				<div class="bil_address">
+					  <h4>Order Info</h4> 
+				  </div>
+				<ul class="payment_address">
+				  <li> order number
+					<span>: 60235</span>
+				  </li>
+				  <li> delivery Date
+					<span>: jun 30, 2023</span>
+				  </li>
+				  <li> payment method
+					<span>: <%= order.payment_method %></span>
+				  </li>
+				</ul>
+			  </div>
+		  </div>
+		  <div class="col-lg-6 col-lx-4">
+			<div class="single_confirmation_details">
+				<div class="bil_address">
+					<h4>Shipping Address</h4> 
+				</div>
+				<ul class="payment_address">
+						
+					<li><h4>Fullname: <span>-</span><%= specifiedAddress.name %>   </h4></li>
+					<li><h4>Phone: <span>-</span>   <%= specifiedAddress.phone %>   </h4></li>
+					<li><h4>Address: <span>-</span> <%= specifiedAddress.address %>   </h4></li>
+					<li><h4>Pincode: <span>-</span> <%= specifiedAddress.pincode %>   </h4></li>
+					<li><h4>City: <span>-</span>    <%= specifiedAddress.place %>   </h4></li>
+					<li><h4>state: <span>-</span>   <%= specifiedAddress.state%>  </h4></li>
+					
+				  </ul>
+			</div>
+		  </div>
+		</div>
+		
+		<div class="row">
+		  <div class="col-lg-12">
+			<div class="order_details_iner">
+			  <h3>Order Details</h3>
+			  <table class="table table-borderless">
+				<thead>
+				  <tr>
+					<th scope="col" colspan="2">Product</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Total</th>
+				  </tr>
+				</thead>
+				<% cart.products.forEach(function(product) { %>
+				<tbody>
+				 
+				  <tr>
+					<th colspan="2"><%= product.productId.name %></th>
+					<th>x<%= product.quantity %></th>
+					<th class="item-total"><%= product.productId.price * product.quantity %></th>
+				  </tr>
+				  <% }); %>
+				  <tr>
+					<th colspan="3">shipping charges</th>
+					<th><span> ₹  50.00</span></th>
+				  </tr>
+				  <tr>
+					<th colspan="3">Discount</th>
+					<th><span> ₹ -<%= cart.discount %></span></th>
+				  </tr>
+				</tbody>
+				
+				<tfoot>
+				  <tr>
+					<th scope="col" colspan="3">Total</th>
+					<% let total= cart.total - cart.discount + 50 %>
+					<th><span> ₹<%= total %> </span> </th>
+				  </tr>
+				</tfoot>
+			  </table>
+			</div>
+		  </div>
+		</div>
+	   
+	  </div>
+	</section>
+	<!--================ confirmation part end =================-->
+
+	<!-- //confirm -->
+
+
+
+	
+
+<%- include('footers') %>

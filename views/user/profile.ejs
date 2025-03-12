@@ -1,0 +1,327 @@
+<%- include('headers') %>
+
+
+	<!-- banner -->
+<div class="banner_top innerpage" id="home">
+		<div class="wrapper_top_w3layouts">
+			<div class="header_agileits">
+				<div class="logo inner_page_log">
+					<h1><a class="navbar-brand" href="/"><span>ZOOM</span> <i>& CLICK</i></a></h1>
+				</div>
+				<div class="overlay overlay-contentpush">
+					<button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+
+					<nav>
+						<ul>
+							<%	if (locals.User && locals.User.name) {%> 
+								<%	if (User.isLogedin) {%> 
+						  <li> <a href="/profile/<%= User._id %>"><%= locals.User.name %></a></li>
+						  <li> <a href="/order/<%= User._id %>">Orders</a></li>
+								<% } %>
+								<% } %>
+							<li><a href="/" class="active">Home</a></li>
+							<li><a href="/about">About</a></li>
+							<li><a href="/product_list">Shop Now</a></li>
+							<li><a href="/contact">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="mobile-nav-button">
+					<button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+				</div>
+				<!-- cart details -->
+				<div class="top_nav_right">
+					<div class="shoecart shoecart2 cart cart box_1">
+						<% if (locals.User) { %>
+						<form action="#" method="post" class="last">
+							<input type="hidden" name="cmd" value="_cart">
+							<input type="hidden" name="display" value="1">
+							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+						</form>
+						<% }else { %>
+							<button class="top_shoe_cart" type="button" ONCLICK="alert('Hello there!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<% } %>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //cart details -->
+		<!-- search -->
+		<div class="search_w3ls_agileinfo">
+			<div class="cd-main-header">
+				<ul class="cd-header-buttons">
+					<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+				</ul>
+			</div>
+			<div id="cd-search" class="cd-search">
+				<form action="/search_pro" method="post">
+					<input name="product" type="search" placeholder="Click enter after typing..." required>
+				</form>
+			</div>
+		</div>
+		<!-- //search -->
+
+		  <!-- sign in -->
+		  <div class="sign_in">
+			<% if (locals.User) { %>
+				<%	if (User.isLogedin) {%>
+				<form action="/log_out/<%= User._id%>" method="post">   <button type="submit" class="btn log_out">logout</button>   </form>
+				<% } %>
+			<% } else { %>
+					<a href="" data-toggle="modal" class="btn" data-target="#myModal">Sign In </a>
+			<% } %>		
+		  </div>
+		  <!-- //sign in -->
+
+		<div class="clearfix"></div>
+		<!-- /banner_inner -->
+		<div class="services-breadcrumb_w3ls_agileinfo">
+			<div class="inner_breadcrumb_agileits_w3">
+
+				<ul class="short">
+					<li><a href="/">Home</a><i>|</i></li>
+					<li>Profile</li>
+				</ul>
+			</div>
+		</div>
+		<!-- //banner_inner -->
+	</div>
+
+	<!-- //banner -->
+
+
+	<!-- profile -->
+	<div style="background-color: black; padding-top: 20px; padding-bottom: 20px;">
+	<div class="container rounded mt-5 mb-5" style="background-color: white;">
+		<div class="row">
+			<div class="col-md-4 border-right">
+				<div class="card full_cardp user-card-full">
+					<div class="row m-l-0 m-r-0">
+						<div class="col-sm-4 bg-c-lite-green user-profile">
+							<div class="card-block text-center text-white">
+				<div class="d-flex flex-column align-items-center photo_name text-center p-3 py-5">
+					<% if (locals.User.photo) { %>
+						
+						<form action="/profilephoto/<%= User._id %>" method="post" enctype="multipart/form-data">
+							<label for="fileInput" class="custom-file-upload" style="margin-top: 14px;">
+								<img class="rounded-circle rounded_photo mt-5" width="150px" src="/<%= User.photo %>">
+							</label>
+						<input type="file" name="photo" id="fileInput" style="display: none;">
+						<button class="btn btn-primary">update Photo</button>
+						</form>
+					<% } else { %>
+					
+					<form action="/profilephoto/<%= User._id %>" method="post" enctype="multipart/form-data">
+						<label for="fileInput" class="custom-file-upload">
+							<img class="rounded-circle rounded_photo mt-5"  width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+						  </label>
+						  <input type="file" name="photo" id="fileInput" style="display: none;">
+					<button class="btn btn-primary">add Photo</button>
+                    </form>
+					<% } %>
+					
+				</div>
+				<div>
+					<span class="font-weight-bold" style="font-weight: 700; text-transform: uppercase;"><%= User.name %></span><span> </span>
+				</div>
+				
+			</div>
+			<div class="prodetail">
+				<ul class="profile">
+					<li><div class="wallet-dropdown">
+						<a class="wdropdown-btn" href="/wallet/<%= User._id %>">My wallet</a>
+						
+					  </div>
+					  </li>
+					<li>
+					  <h4><%= User.totalWallet %></h4>
+					</li>
+					<li><a class="myord" href="/order/<%= User._id %>">My order</a></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		
+			</div>
+		</div>
+			</div>
+			<div class="col-md-8 border-right">
+				<div class="card-block card pdetails user-card-full">
+					<h3 class="m-b-20 p-b-5 informa b-b-default f-w-600">Information</h3>
+					<div class="row">
+						<div class="col-sm-6 informa2">
+							<h4 class="m-b-10 f-w-600">Email</h4>
+							<h4 class="text-muted f-w-400"><%= User.email %></h4>
+						</div>
+						<div class="col-sm-6 informa2">
+							<h4 class="m-b-10 f-w-600">Phone</h4>
+							<h4 class="text-muted f-w-400"><%= User.phone %></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 informa2">
+							<h4 class="m-b-10 f-w-600">Address</h4>
+							<button class="btn btn-info" type="button" onclick="openPopup()">show</button>
+							
+								<div class="profilepopup" id="myPopup">
+									<div class="propopup-content">
+									  <span class="profclose" onclick="closePopup()">&times;</span>
+									  <p>MY ADDRESSES</p>
+									  <button class="btn btn-success" type="button" onclick="addPopup()">Add New Address</button>
+									  
+									  <div class="profilepopup" id="addPopup">
+										<div class="propopup-content">
+										  <span class="profclose" onclick="closeaddPopup()">&times;</span>
+											<form action="/add_paddress" method="post">
+											<div class="modal-header">
+											  <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+											  
+											</div>
+											<div class="first-row form-group">
+												<div class="controls">
+													<label class="control-label">Full name: </label>
+													<input class="billing-address-name form-control" type="text"  name="name" placeholder="Full name">
+												</div>
+												<div class="card_number_grids">
+													<div class="card_number_grid_left">
+														<div class="controls">
+															<label class="control-label">Mobile number:</label>
+															<input class="form-control" type="text" name="phone"  placeholder="Mobile number">
+														</div>
+													</div>
+													<div class="card_number_grid_right">
+														<div class="controls">
+															<label class="control-label">Address: </label>
+															<input class="form-control" type="text" name="address"  placeholder="Landmark">
+														</div>
+													</div>
+													<div class="clear"> </div>
+												</div>
+												<div class="controls">
+													<label class="control-label">Pincode: </label>
+													<input class="form-control" type="number" name="pincode"  placeholder="Pincode">
+												</div>
+												<div class="controls">
+													<label class="control-label">Town/City: </label>
+													<input class="form-control" type="text" name="place"  placeholder="Town/City">
+												</div>
+												<div class="controls">
+													<label class="control-label">State: </label>
+													<input class="form-control" type="text" name="state"  placeholder="State">
+												</div>
+											</div>
+											<div class="modal-footer">
+											  
+											  <button type="submit" class="btn btn-danger">Add Address</button>
+											</div>
+										   </form>
+										</div>
+									  </div>
+
+									  <% if (User.address[0]) { %>
+										<% User.address.forEach(function(address) { %>	
+							<ul class="addreul">
+						
+								<li><h4>Fullname: <span>-</span><%= address.name %>   </h4></li>
+								<li><h4>Phone: <span>-</span>   <%= address.phone %>   </h4></li>
+								<li><h4>Address: <span>-</span> <%= address.address %>   </h4></li>
+								<li><h4>Pincode: <span>-</span> <%= address.pincode %>   </h4></li>
+								<li><h4>City: <span>-</span>    <%= address.place %>   </h4></li>
+								<li><h4>state: <span>-</span>   <%= address.state%>  </h4></li>
+								
+							  </ul>
+							  <button class="btn btn-secondary" type="button" onclick="editPopup('<%=address._id %>')">Edit</button>
+							  <a href="/delete_address/<%=address._id %>" class="btn btn-danger" >Delete</a>
+							  <div class="profilepopup" id="myeditPopup<%=address._id %>">
+								<div class="propopup-content">
+								  <span class="profclose" onclick="closeedPopup('<%=address._id %>')">&times;</span>
+									<form action="/edit_paddress/<%=address._id %>" method="post">
+									<div class="modal-header">
+									  <h5 class="modal-title" id="exampleModalLabel">Edit Address</h5>
+									  
+									</div>
+									<div class="first-row form-group">
+										<div class="controls">
+											<label class="control-label">Full name: </label>
+											<input class="billing-address-name form-control" type="text" value="<%=address.name %>" name="name" placeholder="Full name">
+										</div>
+										<div class="card_number_grids">
+											<div class="card_number_grid_left">
+												<div class="controls">
+													<label class="control-label">Mobile number:</label>
+													<input class="form-control" type="text" name="phone" value="<%=address.phone %>" placeholder="Mobile number">
+												</div>
+											</div>
+											<div class="card_number_grid_right">
+												<div class="controls">
+													<label class="control-label">Address: </label>
+													<input class="form-control" type="text" name="address" value="<%=address.address %>" placeholder="Landmark">
+												</div>
+											</div>
+											<div class="clear"> </div>
+										</div>
+										<div class="controls">
+											<label class="control-label">Pincode: </label>
+											<input class="form-control" type="number" name="pincode" value="<%=address.pincode %>" placeholder="Pincode">
+										</div>
+										<div class="controls">
+											<label class="control-label">Town/City: </label>
+											<input class="form-control" type="text" name="place" value="<%=address.place %>" placeholder="Town/City">
+										</div>
+										<div class="controls">
+											<label class="control-label">State: </label>
+											<input class="form-control" type="text" name="state" value="<%=address.state %>" placeholder="State">
+										</div>
+									</div>
+									<div class="modal-footer">
+									  
+									  <button type="submit" class="btn btn-danger">Edit Address</button>
+									</div>
+								   </form>
+								</div>
+							  </div>
+							  <% }) %>
+
+							<% } else { %>
+								<h3>No Address added</h3>
+								<% } %>	
+
+									</div>
+								  </div>
+						</div>
+						
+					</div>
+			
+				</div>
+			</div>
+		</div>
+	</div>
+    </div>
+	<!-- //profile -->
+<script>
+	// Function to open the popup
+function openPopup() {
+  document.getElementById('myPopup').style.display = 'block';
+}
+function editPopup(addId) {
+  document.getElementById(`myeditPopup${addId}`).style.display = 'block';
+}
+function addPopup() {
+  document.getElementById('addPopup').style.display = 'block';
+}
+
+// Function to close the popup
+function closeedPopup(addId) {
+  document.getElementById(`myeditPopup${addId}`).style.display = 'none';
+}
+function closePopup() {
+  document.getElementById('myPopup').style.display = 'none';
+}
+function closeaddPopup() {
+  document.getElementById('addPopup').style.display = 'none';
+}
+</script>
+	
+
+
+    <%- include('footers') %>

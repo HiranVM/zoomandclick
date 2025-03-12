@@ -1,0 +1,150 @@
+<%- include('headers') %>
+	
+	<!-- banner -->
+    <div class="banner_top innerpage" id="home">
+		<div class="wrapper_top_w3layouts">
+			<div class="header_agileits">
+				<div class="logo inner_page_log">
+					<h1><a class="navbar-brand" href="/"><span>ZOOM</span> <i>& CLICK</i></a></h1>
+				</div>
+				<div class="overlay overlay-contentpush">
+					<button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+
+					<nav>
+						<ul>
+							<%	if (locals.User && locals.User.name) {%> 
+								<%	if (User.isLogedin) {%> 
+						  <li> <a href="/profile/<%= User._id %>"><%= locals.User.name %></a></li>
+						  <li> <a href="/order/<%= User._id %>">Orders</a></li>
+								<% } %>
+								<% } %>
+							<li><a href="/" class="active">Home</a></li>
+							<li><a href="/about">About</a></li>
+							<li><a href="/product_list">Shop Now</a></li>
+							<li><a href="/contact">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="mobile-nav-button">
+					<button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+				</div>
+				<!-- cart details -->
+				<div class="top_nav_right">
+					<div class="shoecart shoecart2 cart cart box_1">
+						<% if (locals.User) { %>
+						<form action="#" method="post" class="last">
+							<input type="hidden" name="cmd" value="_cart">
+							<input type="hidden" name="display" value="1">
+							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+						</form>
+						<% }else { %>
+							<button class="top_shoe_cart" type="button" ONCLICK="alert('Hello there!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<% } %>	
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- //cart details -->
+		<!-- search -->
+		<div class="search_w3ls_agileinfo">
+			<div class="cd-main-header">
+				<ul class="cd-header-buttons">
+					<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+				</ul>
+			</div>
+			<div id="cd-search" class="cd-search">
+				<form action="/search_pro" method="post">
+					<input name="product" type="search" placeholder="Click enter after typing..." required>
+				</form>
+			</div>
+		</div>
+		<!-- //search -->
+
+		  <!-- sign in -->
+		  <div class="sign_in">
+			<% if (locals.User) { %>
+				<%	if (User.isLogedin) {%>
+				<form action="/log_out/<%= User._id%>" method="post">   <button type="submit" class="btn log_out">logout</button>   </form>
+				<% } %>
+			<% } else { %>
+					<a href="" data-toggle="modal" class="btn" data-target="#myModal">Sign In </a>
+			<% } %>		
+		  </div>
+		  <!-- //sign in -->
+
+		<div class="clearfix"></div>
+		<!-- /banner_inner -->
+		<div class="services-breadcrumb_w3ls_agileinfo">
+			<div class="inner_breadcrumb_agileits_w3">
+
+				<ul class="short">
+					<li><a href="/">Home</a><i>|</i></li>
+					<li>Wallet</li>
+				</ul>
+			</div>
+		</div>
+		<!-- //banner_inner -->
+	</div>
+
+	<!-- //banner -->
+
+
+	<!-- profile -->
+	<div style="background-color: black; padding-top: 20px; padding-bottom: 20px;">
+	<div class="container rounded mt-5 mb-5" style="background-color: white;">
+		<div class="row">
+			<div class="col-md-5 border-right">
+				<div class="card full_cardp user-card-full">
+					<div class="row m-l-0 m-r-0">
+						<div class="col-sm-4 bg-c-lite-green user-profile">
+							<h3 class="m-b-20 p-b-5 b-b-default " style="width: 300px; text-transform: uppercase; font-weight: 600;">Wallet Credited</h3>
+			<div class="wallert">
+				<ul class="profile" style="width: 300px;">
+                    <% orderrefund.forEach(function(orders) { %>
+					<li style="margin-top: 10%;">
+                        <h5>Refund</h5>
+                        <div class="wallet-dropdown">
+						
+                        <h4><%= orders.createdAt.toLocaleDateString() %> : <%= orders.total %></h4>
+                        
+					  
+					  </li>
+					<% }); %>
+                    
+				</ul>
+			</div>
+		</div>
+		
+			</div>
+		</div>
+			</div>
+			<div class="col-md-7 border-right">
+				<div class="card-block card pdetails user-card-full">
+					<div class="col-sm-4 bg-c-lite-green user-profile">
+					<div class="row">
+                         <h3 class="m-b-20 p-b-5 b-b-default " style="width: 300px; text-transform: uppercase;font-weight: 600;">Wallet debited</h3>
+						
+					</div>
+					<div class="walletdetail">
+                        <ul class="profile" style="width: 450px;">
+                            <% order_data.forEach(function(orders) { %>
+                            <li style="margin-top: 10%;">
+                                <div class="wallet-dropdown">
+                                <h4><%= orders.createdAt.toLocaleDateString() %> : <%= orders.total %></h4>
+                                
+                              </div>
+                              <div><a type="submit" href="/order_detail/<%= orders._id %>" class="btn btn-info">Details</a></div>
+                              </li>
+                              <% }); %>
+                        </ul>
+                    </div>
+                    <h4>Current Wallet: <%= User.totalWallet %></h4>
+			      </div>
+				</div>
+			</div>
+		</div>
+	</div>
+    </div>
+	<!-- //profile -->
+
+<%- include('footers') %>

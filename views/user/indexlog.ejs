@@ -1,0 +1,258 @@
+<%- include('headers') %>
+	<!-- banner -->
+	<div class="banner_top" id="home">
+		<div class="wrapper_top_w3layouts">
+
+			<div class="header_agileits">
+				<div class="logo">
+					<h1><a class="navbar-brand" href="/"><span>ZOOM</span>  <i>& CLICK</i></a></h1>
+				</div>
+				<div class="overlay overlay-contentpush">
+					<button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
+
+					<nav>
+						<ul>
+							
+							   <%	if (locals.User && locals.User.name) {%> 
+								<%	if (User.isLogedin) {%> 
+									<li> <a href="/profile/<%= User._id %>"><%= locals.User.name %></a></li>
+									<li> <a href="/order/<%= User._id %>">Orders</a></li>
+								<% } %>
+								<% } %>
+						
+							<li><a href="/" class="active">Home</a></li>
+							<li><a href="/about">About</a></li>
+							<li><a href="/product_list">Shop Now</a></li>
+							<li><a href="/contact">Contact</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="mobile-nav-button">
+					<button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
+				</div>
+				
+
+
+				
+				<!-- cart details -->
+				<div class="top_nav_right">
+					<div class="shoecart shoecart2 cart cart box_1">
+						<% if (locals.User) { %>
+						<form action="/viewcart" method="post" class="last">
+							<button class="top_shoe_cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+						</form>
+						<% }else { %>
+							<button class="top_shoe_cart" type="button" ONCLICK="alert('you need to Login first!') "><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<% } %>	
+					</div>
+
+				</div>
+				<!-- //cart details -->
+
+
+				<!-- search -->
+				<div class="search_w3ls_agileinfo">
+					<div class="cd-main-header">
+						<ul class="cd-header-buttons">
+							<li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+						</ul>
+					</div>
+					<div id="cd-search" class="cd-search">
+						<form action="/search_pro" method="post">
+							<input  type="search" name="product" placeholder="Click enter after typing..." required>
+						</form>
+					</div>
+				</div>
+				<!-- //search -->
+				
+		        <!-- sign in -->
+	  	    	<div class="sign_in">
+					<% if (locals.User) { %>
+						<%	if (User.isLogedin) {%>
+						<form action="/log_out/<%= User._id%>" method="post">   <button type="submit" class="btn log_out">logout</button>   </form>
+						<% } %>
+					<% } else { %>
+							<a href="" data-toggle="modal" class="btn" data-target="#myModal">Sign In </a>
+					<% } %>		
+	  		    </div>
+	  		    <!-- //sign in -->
+
+				<div class="clearfix"></div>
+			</div>
+			<% if(locals.message) { %>
+				<div id="msg" class="alert alert-success"><%- locals.message -%></div>
+				<%}%>
+			<% if(locals.msg) { %>
+				<div id="msg" class="alert alert-success"><%- locals.msg -%></div>
+				<%}%>
+			<!-- /slider -->
+			<div class="slider">
+				<div class="callbacks_container">
+					<ul class="rslides callbacks callbacks1" id="slider4">
+						<% banner.forEach(function(banner) { %>
+							<li>
+								<div class="banner-top" style="background-image: url('<%= banner.photo %>');">
+									<div class="banner-info-wthree">
+										<h3><%= banner.bannerName %></h3>
+										<p><%= banner.description %></p>
+	
+									</div>
+	
+								</div>
+							</li>
+							<% }); %>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<!-- //slider -->
+			<ul class="top_icons">
+				<li><a href="#"><span class="fa fa-facebook" aria-hidden="true"></span></a></li>
+				<li><a href="#"><span class="fa fa-twitter" aria-hidden="true"></span></a></li>
+				<li><a href="#"><span class="fa fa-linkedin" aria-hidden="true"></span></a></li>
+				<li><a href="#"><span class="fa fa-google-plus" aria-hidden="true"></span></a></li>
+
+			</ul>
+		</div>
+	</div>
+	<!-- //banner -->
+	<!-- /girds_bottom-->
+	<div class="grids_bottom">
+		<div class="style-grids">
+			<div class="col-md-6 style-grid style-grid-3">
+				<img src="/images/b0.jpg" alt="shoe">
+			</div>
+		</div>
+		<div class="col-md-6 style-grid style-grid-4">
+			<div class="style-image-1_info">
+				<div class="style-grid-2-text_info">
+					<h3>GoPro</h3>
+					<p>We have cameras, mounts and accessories that are specifically designed for the activities you love to do. Choose one below, build the perfect setup and nail any shot.</p>
+					<div class="shop-button">
+						<a href="/product_list">Shop Now</a>
+					</div>
+				</div>
+			</div>
+			<div class="style-image-2">
+				<img src="/images/b3.jpg" alt="shoe">
+				<div class="style-grid-2-text">
+					<h3>Air force</h3>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	</div>
+	<!-- //grids_bottom-->
+	<!-- /girds_bottom-->
+	<div class="grids_bottom">
+		<div class="style-grids">
+			<div class="col-md-6 style-grid style-grid-1">
+				<img src="/images/b1.jpg" alt="shoe">
+			</div>
+		</div>
+		<div class="col-md-6 style-grid style-grid-2">
+			<div class="style-image-1_info">
+				<div class="style-grid-2-text_info">
+					<h3>insta360</h3>
+					<p>Total flexibility. No compromises. The only action camera that shoots mind-blowing 360 and wide-angle action shots with just the swap of a lens.</p>
+					<div class="shop-button">
+						<a href="/product_list">Shop Now</a>
+					</div>
+				</div>
+			</div>
+			<div class="style-image-2">
+				<img src="/images/b2.jpg" alt="shoe">
+				<div class="style-grid-2-text">
+					<h3>Air force</h3>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	</div>
+	<!-- //grids_bottom-->
+	<!-- /Properties -->
+	<div class="mid_slider_w3lsagile">
+		<div class="col-md-3 mid_slider_text">
+			<h5>Some More Cameras</h5>
+		</div>
+		<div class="col-md-9 mid_slider_info">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+					<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+					<li data-target="#myCarousel" data-slide-to="3" class=""></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<div class="row">
+							<% product.forEach(function(product) { %>
+							<div class="col-md-3 col-sm-3 col-xs-3 slidering">
+								<div class="thumbnail"><img src="<%= product.photo[0] %>" alt="Image" style="max-width:100%;"></div>
+							</div>
+							
+							<% }); %>
+						</div>
+					</div>
+					<div class="item">
+						<div class="row">
+							<% product.forEach(function(product) { %>
+								<div class="col-md-3 col-sm-3 col-xs-3 slidering">
+									<div class="thumbnail"><a href="/single/<%= product._id %>"><img src="<%= product.photo[0] %>" alt="Image" style="max-width:100%;"></a> </div>
+								</div>
+								
+								<% }); %>
+						</div>
+					</div>
+					<div class="item">
+						<div class="row">
+							<% product.forEach(function(product) { %>
+								<div class="col-md-3 col-sm-3 col-xs-3 slidering">
+									<div class="thumbnail"><a href="/single/<%= product._id %>"><img src="<%= product.photo[0] %>" alt="Image" style="max-width:100%;"></a> </div>
+								</div>
+								
+								<% }); %>
+						</div>
+					</div>
+					<div class="item">
+						<div class="row">
+							<% product.forEach(function(product) { %>
+								<div class="col-md-3 col-sm-3 col-xs-3 slidering">
+									<div class="thumbnail"><a href="/single/<%= product._id %>"><img src="<%= product.photo[0] %>" alt="Image" style="max-width:100%;"></a> </div>
+								</div>
+								
+								<% }); %>
+						</div>
+					</div>
+				</div>
+				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="fa fa-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="fa fa-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+				<!-- The Modal -->
+
+			</div>
+		</div>
+
+		<div class="clearfix"> </div>
+	</div>
+	<!--//banner -->
+
+	
+	<script>
+        setTimeout(() => {
+
+            document.getElementById('msg').style.display="none"
+            
+        }, 3000);
+    </script>
+
+
+	<%- include('footers') %>
